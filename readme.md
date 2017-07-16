@@ -1,7 +1,7 @@
 # import csv into elasticsearch
 
 ## features
-1. load data from csv file exported from mysql by sequel pro into es by bulk requests
+1. load data from csv file exported from mysql ~~by sequel pro~~ into es by bulk requests
 2. use a specific field as customized _id
 3. ignore lines with format error
 4. support big file
@@ -9,7 +9,7 @@
 
 ## usage
 ```
-python csv2es.py --es-host 192.168.197.128:9200 --delimiter , --bulk-size 1000 --index news --type article1000 --id-field id --offset 23000 article.csv
+python csv2es.py --es-host 192.168.197.128:9200 --bulk-size 1000 --index news --type article1000 --id-field id --offset 23000 article.csv
 ```
 
 ## requirements
@@ -19,10 +19,24 @@ python csv2es.py --es-host 192.168.197.128:9200 --delimiter , --bulk-size 1000 -
 
 ## limit
 #### only support csv file with strict format
+For example:
+```sql
+(select 'id','url','title','source','keywords','publish_time')
+UNION
+(SELECT id,url,title,source,keywords,publish_time
+FROM article
+INTO OUTFILE '/temp/article.csv'
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+ESCAPED BY '\\'
+LINES TERMINATED BY '\n');
+```
+
+It means
 * use , as delimiter
-* string is always wrapped by “
-* newline character in a string must be expressed as \n because every line is parsed as a document
-* null
+* string is always wrapped by "
+* newline character in a string must be expressed as \n because every line is parsed as a document. If your text contains real newline, you must replace them by like this: `update your_table set your_column=REPLACE(your_columne, '\n', '\\n');`
+* null is `null`
 
 #### line example
 ```

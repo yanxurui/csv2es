@@ -40,7 +40,7 @@ def index(bulk, config):
     try:
         helpers.bulk(config['es_conn'], bulk)
     except Exception as e:
-        log('warning', e.message)
+        log('warning', str(e))
 
 
 def read (file, config):
