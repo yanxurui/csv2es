@@ -36,7 +36,7 @@ It means
 * use , as delimiter
 * string is always wrapped by "
 * newline character in a string must be expressed as \n because every line is parsed as a document. If your text contains real newline, you must replace them by like this: `update your_table set your_column=REPLACE(your_columne, '\n', '\\n');`
-* null is `null`
+* null is represented by `\N`, but `NULL` and `null` are also ok
 
 #### line example
 ```

@@ -8,7 +8,7 @@ from elasticsearch import Elasticsearch
 
 # tranform a csv line into a list
 def divide(line):
-    new_line = ''.join(['[', line.strip('\n').replace('NULL', 'null'), ']'])
+    new_line = ''.join(['[', line.strip('\n').replace('NULL', 'null').replace('\N', 'null'), ']'])
     try:
         return json.loads(new_line, strict=False)
     except ValueError as e:
